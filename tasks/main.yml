@@ -1,0 +1,7 @@
+---
+- name: put hbase-master eye config file
+  template: src=hbase/master.rb dest=/etc/eye/hdfs-master.rb owner=root group=root mode=0644
+
+- name: load config in eye
+  command: bash -c "source /usr/local/rvm/scripts/rvm && eye l /etc/eye/apps.eye"
+  sudo: yes
