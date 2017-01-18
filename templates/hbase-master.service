@@ -1,0 +1,17 @@
+[Unit]
+Description=HBase Master Service
+Documentation=https://github.com/gitinsky/ansible-role-hbase-master
+
+[Service]
+LimitNOFILE=65535
+Type=simple
+User={{ hadoop_user }}
+Group={{ hadoop_user }}
+ExecStart={{ hbase_distr_prefix }}/bin/hbase master start
+StandardOutput=journal
+StandardError=journal
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+Alias=hbase-master-{{ env_name }}.service
