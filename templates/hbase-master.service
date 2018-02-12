@@ -7,11 +7,10 @@ LimitNOFILE=65535
 Type=simple
 User={{ hadoop_user }}
 Group={{ hadoop_user }}
-ExecStart={{ hbase_distr_prefix }}/bin/hbase master start
+ExecStart={{ hbase_distr_prefix }}-{{ env_name }}-{{ hbase_version }}/bin/hbase master start
 StandardOutput=journal
 StandardError=journal
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
-Alias=hbase-master-{{ env_name }}.service
