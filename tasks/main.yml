@@ -1,18 +1,18 @@
 ---
 - name: put hbase-master eye config file
   template: src=hbase/master.rb dest=/etc/eye/hbase-master-{{ env_name }}.rb owner=root group=root mode=0644
-  when: "not (ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('16.04', '>='))"
+  when: "not (ansible_distribution == 'Ubuntu' and ansible_distribution_version is version('16.04', '>='))"
 
 - name: load config in eye
   command: bash -c "source /usr/local/rvm/scripts/rvm && eye l /etc/eye/apps.eye"
   become: yes
-  when: "not (ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('16.04', '>='))"
+  when: "not (ansible_distribution == 'Ubuntu' and ansible_distribution_version is version('16.04', '>='))"
 
 - name: put systemd unit file to its destination
   template: src=hbase-master.service dest=/etc/systemd/system/hbase-master-{{ env_name }}.service owner=root group=root mode=0644
-  when: "ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('16.04', '>=')"
+  when: "ansible_distribution == 'Ubuntu' and ansible_distribution_version is version('16.04', '>=')"
   notify: systemctl daemon-reload
 
 - name: enable hbase-master service
   service: name=hbase-master-{{ env_name }} enabled=yes state=started
-  when: "ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('16.04', '>=')"
+  when: "ansible_distribution == 'Ubuntu' and ansible_distribution_version is version('16.04', '>=')"
